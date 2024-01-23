@@ -12,12 +12,13 @@ const SearchParams = () => {
         animal: "",
         breed: "",
     });
-    const [adoptedPet] = useContext(AdoptedPetContext);
+    const [adoptedPet] = useContext(AdoptedPetContext); // holds the info of the adopted pet from the current context
     const [animal, setAnimal] = useState("");
-    const [breeds] = useBreedList(animal);
+    const [breeds] = useBreedList(animal); // the breeds are dynamically set by the animal, with customized hook
+    // use breed list sets the breeds dynamically, depends on the animal, using useBreedList hook
 
-    const results = useQuery(["search", requestParams], fetchSearch);
-    const pets = results?.data?.pets ?? [];
+    const results = useQuery(["search", requestParams], fetchSearch); // fetching results based on the params
+    const pets = results?.data?.pets ?? []; // array of pets returned from the search
 
     return (
         <div className="search-params">

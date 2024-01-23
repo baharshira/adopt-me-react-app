@@ -13,6 +13,7 @@ class ErrorBoundary extends Component {
         console.error("ErrorBoundary component caught an error", error, errorInfo);
     }
 
+    // renders conditionally, depends on the error. If there's no error, the rendered object is "children" (the nested component)
     render() {
         if (this.state.hasError) {
             return (

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const Pet = (props) => {
-    const { name, animal, breed, images, location, id } = props;
+    const { name, animal, breed, images, location, id } = props; // destructing the props
 
     let hero = "http://pets-images.dev-apis.com/pets/none.jpg";
     if (images.length) {

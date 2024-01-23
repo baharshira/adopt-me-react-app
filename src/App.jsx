@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, lazy, Suspense } from "react";
 import AdoptedPetContext from "./dataFetching/AdoptedPetContext";
 
+
+// caching the queries, for performance purpose
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
@@ -13,6 +15,7 @@ const queryClient = new QueryClient({
     },
 });
 
+// waiting to load these component until it's needed
 const Details = lazy(() => import("./components/Details"));
 const SearchParams = lazy(() => import("./components/SearchParams"));
 
