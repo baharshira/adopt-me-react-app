@@ -1,15 +1,20 @@
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useContext, useState, lazy } from "react";
+import AdoptedPetContext from "./../dataFetching/AdoptedPetContext";
 import ErrorBoundary from "./ErrorBoundary";
-import fetchPet from "../dataFetching/fetchPet";
+import fetchPet from "./../dataFetching/fetchPet";
 import Carousel from "./Carousel";
-import Modal from "./Modal";
+
+const Modal = lazy(() => import("./Modal"));
 
 const Details = () => {
-    const [showModal, setShowModal] = useState(false);
     const { id } = useParams();
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
     const results = useQuery(["details", id], fetchPet);
+    // eslint-disable-next-line no-unused-vars
+    const [_, setAdoptedPet] = useContext(AdoptedPetContext);
 
     if (results.isLoading) {
         return (
@@ -29,19 +34,24 @@ const Details = () => {
                 <h2>{`${pet.animal} — ${pet.breed} — ${pet.city}, ${pet.state}`}</h2>
                 <button onClick={() => setShowModal(true)}>Adopt {pet.name}</button>
                 <p>{pet.description}</p>
-                {
-                    showModal ? (
-                        <Modal>
-                            <div>
-                                <h1>Would you like to adopt {pet.name}?</h1>
-                                <div className="buttons">
-                                    <button>Yes</button>
-                                    <button onClick={() => setShowModal(false)}>No</button>
-                                </div>
+                {showModal ? (
+                    <Modal>
+                        <div>
+                            <h1>Would you like to adopt {pet.name}?</h1>
+                            <div className="buttons">
+                                <button
+                                    onClick={() => {
+                                        setAdoptedPet(pet);
+                                        navigate("/");
+                                    }}
+                                >
+                                    Yes
+                                </button>
+                                <button onClick={() => setShowModal(false)}>No</button>
                             </div>
-                        </Modal>
-                    ) : null
-                }
+                        </div>
+                    </Modal>
+                ) : null}
             </div>
         </div>
     );
